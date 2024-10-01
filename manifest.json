@@ -1,0 +1,5 @@
+{
+  "permissions": [ "activeTab" ],
+  "name": "https://hofstadterp0.github.io",
+  "display": "standalone"
+}
