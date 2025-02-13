@@ -3,178 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Цель пикселя при клике</title>
 
     <!-- START OF ALTCRAFT PIXEL CODE !-->
     <script type="text/javascript">
-    !function(){var e={url:"https://pxl.polina-zakaryan.dev.altkraft.com/pixel?k=34FyFph%2BVuzFYrhPh7C10Nk7Jg3MJUl1m%2Fqui6fGQJa6XD9SM9jghQ%3D%3D&s=XZCMwL8NN%2B8%3D",goals:"",value:parseFloat("0"),timeout:parseInt("5000"),after_scroll:JSON.parse("false"),auto_load:JSON.parse("true")},o=function(o,t,n,a){var d=[].concat(o).map(function(e){return encodeURIComponent(e)}).join(","),c=encodeURIComponent(String(t||0)),i=encodeURIComponent(n.matching_mode||""),r=encodeURIComponent(n.db_id||0),u=encodeURIComponent(JSON.stringify(n.match||{})),l=encodeURIComponent(JSON.stringify(n.update||{}));setTimeout(function(){(new Image).src=[e.url,"goals="+d,"value="+c,"db_id="+r,"mmode="+i,"match="+u,"update="+l].join("&")},a)},t=!1,n=function(){t||(t=!0,e.after_scroll?document.addEventListener("scroll",function(){(window.pageYOffset||document.documentElement.scrollTop>0)&&o(e.goals,e.value,{},e.timeout)},{once: true}):e.auto_load&&o(e.goals,e.value,{},e.timeout))};"complete"===document.readyState||"interactive"===document.readyState?n():window.addEventListener("load",n);window.ak_pixel_push=function(e,t,n,a,d,c){var i=[];Array.isArray(e)?i=e:i[0]=e,o(i,t,{match:n,update:a,matching_mode:d,db_id:c},0)}}();
+    !function(){var e={url:"https://pxl.polina-zakaryan.dev.altkraft.com/pixel?k=34FyFph%2BVuzFYrhPh7C10Nk7Jg3MJUl1m%2Fqui6fGQJa6XD9SM9jghQ%3D%3D&s=XZCMwL8NN%2B8%3D",goals:"",value:parseFloat("0"),timeout:parseInt("0"),after_scroll:JSON.parse("false"),auto_load:JSON.parse("false")},o=function(o,t,n,a){var d=[].concat(o).map(function(e){return encodeURIComponent(e)}).join(","),c=encodeURIComponent(String(t||0)),i=encodeURIComponent(n.matching_mode||""),r=encodeURIComponent(n.db_id||0),u=encodeURIComponent(JSON.stringify(n.match||{})),l=encodeURIComponent(JSON.stringify(n.update||{}));setTimeout(function(){(new Image).src=[e.url,"goals="+d,"value="+c,"db_id="+r,"mmode="+i,"match="+u,"update="+l].join("&")},a)},t=!1,n=function(){t||(t=!0,e.after_scroll?document.addEventListener("scroll",function(){(window.pageYOffset||document.documentElement.scrollTop>0)&&o(e.goals,e.value,{},e.timeout)},{once: true}):e.auto_load&&o(e.goals,e.value,{},e.timeout))};"complete"===document.readyState||"interactive"===document.readyState?n():window.addEventListener("load",n);window.ak_pixel_push=function(e,t,n,a,d,c){var i=[];Array.isArray(e)?i=e:i[0]=e,o(i,t,{match:n,update:a,matching_mode:d,db_id:c},0)}}();
     </script>
     <!-- END OF ALTCRAFT PIXEL CODE !-->
     
-    <title>Заголовок страницы</title>
-    <style>
-        /* Сброс стилей */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <script>
+        // Функция для регистрации цели и импорта данных пользователя
+        function registerPixelGoal() {
+            const userProfileData = {
+                _fname: "John",        // Имя пользователя
+                _lname: "Doe",         // Фамилия пользователя
+                subscriptions: [       // Пример подписки
+                    {
+                        resource_id: 1,
+                        channel: "email",
+                        email: "john.doe@example.com"
+                    }
+                ]
+            };
 
-        /* Основные стили для тела страницы */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            color: #495057;
-            line-height: 1.6;
-            padding-top: 50px; /* Отступ для фиксированного меню */
+            // Вызов пикселя с данными пользователя
+            ak_pixel_push(
+                "click",                 // Цель: клик
+                100,                     // Значение цели
+                {
+                    db_id: 1,            // ID базы данных, если не указан в настройках пикселя
+                    email: "john.doe@example.com"
+                },
+                userProfileData         // Данные профиля для импорта
+            );
+            console.log("Цель зарегистрирована и данные профиля импортированы.");
         }
-
-        /* Стиль для шапки */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: #343a40;
-            color: #fff;
-            padding: 15px 0;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        header nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-        }
-
-        header nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: color 0.3s ease;
-        }
-
-        header nav ul li a:hover {
-            color: #f8f9fa;
-        }
-
-        /* Основной контент */
-        main {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px 60px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        section {
-            margin-bottom: 40px;
-        }
-
-        h1, h2 {
-            color: #343a40;
-            font-size: 2rem;
-            margin-bottom: 15px;
-        }
-
-        p {
-            font-size: 1rem;
-            color: #6c757d;
-            line-height: 1.8;
-        }
-
-        /* Кнопки */
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
-            margin-top: 20px;
-            background-color: #007bff;
-            color: #fff;
-            font-size: 1.1rem;
-            border-radius: 5px;
-            text-decoration: none;
-            text-align: center;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-
-        /* Стиль для футера */
-        footer {
-            background-color: #343a40;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-            font-size: 0.9rem;
-        }
-
-        footer p {
-            margin: 0;
-        }
-
-        /* Адаптивность */
-        @media (max-width: 768px) {
-            header nav ul {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            main {
-                padding: 20px;
-            }
-        }
-    </style>
+    </script>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#home">Главная</a></li>
-                <li><a href="#about">О нас</a></li>
-                <li><a href="#services">Услуги</a></li>
-                <li><a href="#contact">Контакты</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="home">
-            <h1>Добро пожаловать на нашу страницу</h1>
-            <p>Мы рады приветствовать вас на нашей платформе. Здесь вы найдете все необходимое для удобной работы с нашими сервисами.</p>
-            <a href="#about" class="btn">Узнать больше</a>
-        </section>
-
-        <section id="about">
-            <h2>О нас</h2>
-            <p>Наша компания занимается разработкой инновационных решений для вашего бизнеса. Мы ценим каждого клиента и готовы предложить индивидуальный подход.</p>
-        </section>
-
-        <section id="services">
-            <h2>Услуги</h2>
-            <p>Мы предлагаем широкий спектр услуг, включая автоматизацию маркетинга, интеграцию с различными платформами и много другое.</p>
-        </section>
-
-        <section id="contact">
-            <h2>Контакты</h2>
-            <p>Свяжитесь с нами через форму обратной связи или по телефону: +7 (123) 456-78-90.</p>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Ваша компания. Все права защищены.</p>
-    </footer>
+    <button onclick="registerPixelGoal()">Кликни меня</button>
 
 </body>
 </html>
