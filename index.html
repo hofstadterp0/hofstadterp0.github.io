@@ -32,12 +32,12 @@
         function registerPixelGoal() {
             const userProfileData = {
                 _fname: "Ted",        // Имя пользователя
-                _lname: "Doe",         // Фамилия пользователя
+                _lname: "Mad",         // Фамилия пользователя
                 subscriptions: [       // Пример подписки
                     {
                         resource_id: 1,
                         channel: "email",
-                        email: "pixel@example.com"
+                        email: "ted@example.com"
                     }
                 ]
             };
@@ -48,10 +48,10 @@
                 100,                     // Значение цели
                 {
                     db_id: 1,            // ID базы данных, если не указан в настройках пикселя
-                    email: "pixel@example.com"
+                    profile_id: "67a1ce8f54efaa1ffeeade43"
                 },
                 userProfileData,         // Данные профиля для импорта
-                "email_profile"
+                "profile_id"
             );
             console.log("Цель зарегистрирована и данные профиля импортированы.");
         }
@@ -59,7 +59,7 @@
 </head>
 <body>
 
-    <button onclick="registerPixelGoal()">Кликни меня2</button>
+    <button onclick="registerPixelGoal()">Кликни менz</button>
 
 </body>
 </html>
