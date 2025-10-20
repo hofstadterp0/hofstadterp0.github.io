@@ -22,7 +22,7 @@
 <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
 <meta name="theme-color" content="#E6E6FA">
 
-  <script src="https://pxl-pz69gr78pumdh8my.dev.altcraft.com/ak_container.js?id=MXw2" ></script>
+<script src="https://pxl-pz69gr78pumdh8my.dev.altcraft.com/ak_container.js?id=MXw2" ></script>
 
 <script>
 if ('serviceWorker' in navigator) {
@@ -39,22 +39,23 @@ if ('serviceWorker' in navigator) {
 </script>
 
   <title>PWA</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-  <link rel="stylesheet" href="style/style.css">
-  <script src="https://use.fontawesome.com/4ca20d00e4.js"></script>
 </head>
 <body>
-    <button id="init_sub">Подписаться на уведомления</button>
+    
+<button id="init_sub">Подписаться на уведомления</button> // Кнопка подписки
+
+// ..Основная часть кода..
 <script>
-      // Кнопка подписки
-    document.getElementById('init_sub').addEventListener('click', function() {
-      try {
-        const akPush = new AKPush();
-        akPush.initSubscription(); // Показать окно разрешения
-      } catch (e) {
-        console.log(e);
-      }
-    });
-  </script>
+	document.getElementById('init_sub').addEventListener('click', function() { // По клику на кнопку..
+	try {
+		const akPush = new AKPush();
+		akPush.initSubscription() // ..показать форму подписки
+		}
+	catch (e) {
+		console.log(e); // ..или записать ошибку в консоль браузера
+		}
+	});
+</script>
+
 </body>
 </html>
