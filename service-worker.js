@@ -1,0 +1,1 @@
+importScripts('https://pxl-pz69gr78pumdh8my.dev.altcraft.com/service-worker.js?id=MXw2');
