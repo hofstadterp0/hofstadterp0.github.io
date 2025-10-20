@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- iOS иконки -->
 <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png">
@@ -13,48 +14,150 @@
 <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png">
 <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png">
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png">
+
+<!-- Favicon/Android -->
 <link rel="icon" type="image/png" sizes="192x192"  href="icons/android-icon-192x192.png">
 <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+
 <link rel="manifest" href="/manifest.json">
 <meta name="msapplication-TileColor" content="#E6E6FA">
 <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
 <meta name="theme-color" content="#E6E6FA">
 
-<script src="https://pxl-pz69gr78pumdh8my.dev.altcraft.com/ak_container.js?id=MXw2" ></script>
+<!-- Рекомендуемо для iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-      // Registration was successful
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, function(err) {
-      // registration failed :(
-      console.log('ServiceWorker registration failed: ', err);
-    });
-  });
-}
-</script>
+<script src="https://pxl-pz69gr78pumdh8my.dev.altcraft.com/ak_container.js?id=MXw2"></script>
 
-  <title>PWA</title>
+<style>
+  #pwa-install[disabled] { opacity:.5; cursor:not-allowed; }
+</style>
+
+<title>PWA</title>
 </head>
 <body>
-    
-<button id="init_sub">Подписаться на пуши</button> // Кнопка подписки
 
+<!-- Кнопка подписки -->
+<button id="init_sub">Подписаться на пуши</button> <!-- Кнопка подписки -->
+
+<!-- Кнопка установки -->
+<button id="pwa-install" hidden>Установить приложение</button>
+
+<!-- Модалка-подсказка для iOS -->
+<dialog id="ios-help">
+  <h3>Добавить на экран «Домой»</h3>
+  <ol>
+    <li>Нажмите кнопку «Поделиться» в Safari.</li>
+    <li>Выберите «На экран “Домой”».</li>
+    <li>Подтвердите установку.</li>
+  </ol>
+  <form method="dialog"><button>Понятно</button></form>
+</dialog>
 
 <script>
-	document.getElementById('init_sub').addEventListener('click', function() { // По клику на кнопку..
-	try {
-		const akPush = new AKPush();
-		akPush.initSubscription() // ..показать форму подписки
-		}
-	catch (e) {
-		console.log(e); // ..или записать ошибку в консоль браузера
-		}
-	});
+// 1) Регистрация Service Worker (поставьте корректный путь!)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/service-worker.js') 
+      .then(reg => console.log('✅ SW зарегистрирован:', reg.scope))
+      .catch(err => console.warn('❌ SW ошибка:', err));
+  });
+}
+
+// 2) Подписка на пуши (ваш код)
+document.getElementById('init_sub').addEventListener('click', () => {
+  try {
+    const akPush = new AKPush();
+    akPush.initSubscription();
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// 3) Логика install-кнопки
+(() => {
+  const btn = document.getElementById('pwa-install');
+  const iosHelp = document.getElementById('ios-help');
+
+  const isIOS = () => {
+    const ua = navigator.userAgent || '';
+    const platform = navigator.platform || '';
+    return /iPad|iPhone|iPod/.test(platform) || (ua.includes('Mac') && 'ontouchend' in document);
+  };
+  const isStandalone = () =>
+    matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+
+  let deferred; // beforeinstallprompt event
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferred = e;
+    if (!isStandalone()) {
+      btn.hidden = false;
+      btn.disabled = false;
+      btn.textContent = 'Установить приложение';
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    btn.disabled = true;
+    btn.textContent = 'Установлено';
+  });
+
+  btn.addEventListener('click', async () => {
+    if (isIOS()) {
+      if (iosHelp?.showModal) iosHelp.showModal();
+      else alert('В Safari: Поделиться → На экран «Домой».');
+      return;
+    }
+    if (deferred) {
+      try {
+        await deferred.prompt();
+        const { outcome } = await deferred.userChoice;
+        if (outcome === 'accepted') {
+          btn.disabled = true;
+          btn.textContent = 'Установлено';
+        }
+      } finally {
+        deferred = null; // одноразовое
+      }
+    } else {
+      // Нет поддержки установки — спрячем
+      btn.hidden = true;
+    }
+  });
+
+  // Инициализация на загрузке
+  (function init() {
+    if (isStandalone()) {
+      btn.disabled = true;
+      btn.textContent = 'Установлено';
+      btn.hidden = false;
+      return;
+    }
+    if (isIOS()) {
+      // На iOS нет prompt — показываем кнопку-подсказку
+      btn.hidden = false;
+      btn.disabled = false;
+      btn.textContent = 'Добавить на экран «Домой»';
+      return;
+    }
+    // В остальных браузерах кнопку покажет beforeinstallprompt, здесь не делаем ничего
+  })();
+
+  // Если режим окна поменялся на standalone
+  matchMedia('(display-mode: standalone)').addEventListener?.('change', (e) => {
+    if (e.matches) {
+      btn.disabled = true;
+      btn.textContent = 'Установлено';
+      btn.hidden = false;
+    }
+  });
+})();
 </script>
 
 </body>
