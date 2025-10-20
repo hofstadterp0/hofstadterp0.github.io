@@ -1,5 +1,6 @@
 {
-  "name": "Web Community Leaders UK IE",
+  "permissions": [ "activeTab" ],
+  "name": "https://hofstadterp0.github.io",
     "short_name": "Web Leaders",
     "description": "Web Community Leaders landing page",
     "lang": "en-GB",
