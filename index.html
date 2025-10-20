@@ -27,7 +27,7 @@
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+    navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
       // Registration was successful
       console.log('ServiceWorker registration successful with scope: ', registration.scope);
     }, function(err) {
@@ -42,9 +42,9 @@ if ('serviceWorker' in navigator) {
 </head>
 <body>
     
-<button id="init_sub">Подписаться на уведомления</button> // Кнопка подписки
+<button id="init_sub">Подписаться на пуши</button> // Кнопка подписки
 
-// ..Основная часть кода..
+
 <script>
 	document.getElementById('init_sub').addEventListener('click', function() { // По клику на кнопку..
 	try {
